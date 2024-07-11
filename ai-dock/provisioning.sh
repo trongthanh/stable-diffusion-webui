@@ -14,21 +14,22 @@ PIP_PACKAGES=(
 
 EXTENSIONS=(
     "https://github.com/Mikubill/sd-webui-controlnet"
-    "https://github.com/d8ahazard/sd_dreambooth_extension"
-    "https://github.com/deforum-art/sd-webui-deforum"
+    # "https://github.com/d8ahazard/sd_dreambooth_extension"
+    # "https://github.com/deforum-art/sd-webui-deforum"
     "https://github.com/adieyal/sd-dynamic-prompts"
     "https://github.com/ototadana/sd-face-editor"
     "https://github.com/AlUlkesh/stable-diffusion-webui-images-browser"
     "https://github.com/hako-mikan/sd-webui-regional-prompter"
     "https://github.com/Coyote-A/ultimate-upscale-for-automatic1111"
     "https://github.com/Gourieff/sd-webui-reactor"
+    "https://github.com/Bing-su/adetailer.git"
 )
 
 CHECKPOINT_MODELS=(
     https://civitai.com/api/download/models/176425 # https://civitai.com/models/43331?modelVersionId=176425 majicMIX realistic
     https://civitai.com/api/download/models/221343 # https://civitai.com/models/43331?modelVersionId=221343 majicMIX realistic inpainting
-    https://civitai.com/api/download/models/110442 # https://civitai.com/models/103169?modelVersionId=110442 SDVN4-3DCuteVN
-    https://civitai.com/api/download/models/153051 # https://civitai.com/models/103169?modelVersionId=153051 SDVN4-3DCuteVN inpainting
+    # https://civitai.com/api/download/models/110442 # https://civitai.com/models/103169?modelVersionId=110442 SDVN4-3DCuteVN
+    # https://civitai.com/api/download/models/153051 # https://civitai.com/models/103169?modelVersionId=153051 SDVN4-3DCuteVN inpainting
 
     # "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt"
     #"https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt"
