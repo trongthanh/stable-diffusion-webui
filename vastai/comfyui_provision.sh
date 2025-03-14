@@ -44,7 +44,7 @@ ESRGAN_MODELS=(
 )
 
 CONTROLNET_MODELS=(
-    "https://huggingface.co/brad-twinkl/controlnet-union-sdxl-1.0-promax/resolve/main/diffusion_pytorch_model.safetensors?download=true"
+    "https://huggingface.co/brad-twinkl/controlnet-union-sdxl-1.0-promax/resolve/main/diffusion_pytorch_model.safetensors?download=true" "controlnet-union-sdxl-1.0-promax.safetensors"
 )
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
@@ -90,11 +90,11 @@ function provisioning_get_pip_packages() {
 function provisioning_get_nodes() {
     for repo in "${NODES[@]}"; do
         dir="${repo##*/}"
-        path="${COMFYUI_DIR}custom_nodes/${dir}"
+        path="${COMFYUI_DIR}/custom_nodes/${dir}"
         requirements="${path}/requirements.txt"
         if [[ -d $path ]]; then
             if [[ ${AUTO_UPDATE,,} != "false" ]]; then
-                printf "Updating node: %s...\n" "${repo}"
+                printf "Downloading node: %s...\n" "${repo}"
                 ( cd "$path" && git pull )
                 if [[ -e $requirements ]]; then
                    pip install --no-cache-dir -r "$requirements"
@@ -116,12 +116,28 @@ function provisioning_get_files() {
     dir="$1"
     mkdir -p "$dir"
     shift
-    arr=("$@")
-    printf "Downloading %s model(s) to %s...\n" "${#arr[@]}" "$dir"
-    for url in "${arr[@]}"; do
+    
+    # Process array elements in pairs (URL and optional filename)
+    while [[ $# -gt 0 ]]; do
+        url="$1"
+        custom_filename=""
+        
+        # Check if next parameter exists and is not a URL (treat as custom filename)
+        if [[ $# -gt 1 && ! "$2" =~ ^https?:// ]]; then
+            custom_filename="$2"
+            shift  # Move to the custom filename
+        fi
+        
         printf "Downloading: %s\n" "${url}"
-        provisioning_download "${url}" "${dir}"
+        if [[ -n "$custom_filename" ]]; then
+            printf "Will be saved as: %s\n" "${custom_filename}"
+            provisioning_download "${url}" "${dir}" "4M" "${custom_filename}"
+        else
+            provisioning_download "${url}" "${dir}"
+        fi
         printf "\n"
+        
+        shift  # Move to the next URL or end
     done
 }
 
@@ -165,18 +181,33 @@ function provisioning_has_valid_civitai_token() {
     fi
 }
 
-# Download from $1 URL to $2 file path
+# Download from $1 URL to $2 directory path with optional $3 dot bytes and $4 custom filename
 function provisioning_download() {
-    if [[ -n $HF_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?huggingface\.co(/|$|\?) ]]; then
+    local url="$1"
+    local dir="$2"
+    local dotbytes="${3:-4M}"
+    local custom_filename="$4"
+    
+    if [[ -n $HF_TOKEN && $url =~ ^https://([a-zA-Z0-9_-]+\.)?huggingface\.co(/|$|\?) ]]; then
         auth_token="$HF_TOKEN"
-    elif 
-        [[ -n $CIVITAI_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?civitai\.com(/|$|\?) ]]; then
+    elif [[ -n $CIVITAI_TOKEN && $url =~ ^https://([a-zA-Z0-9_-]+\.)?civitai\.com(/|$|\?) ]]; then
         auth_token="$CIVITAI_TOKEN"
     fi
-    if [[ -n $auth_token ]];then
-        wget --header="Authorization: Bearer $auth_token" -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
+    
+    if [[ -n $custom_filename ]]; then
+        # Download with custom filename
+        if [[ -n $auth_token ]]; then
+            wget --header="Authorization: Bearer $auth_token" -qnc --show-progress -e dotbytes="$dotbytes" -O "${dir}/${custom_filename}" "$url"
+        else
+            wget -qnc --show-progress -e dotbytes="$dotbytes" -O "${dir}/${custom_filename}" "$url"
+        fi
     else
-        wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
+        # Download with original filename
+        if [[ -n $auth_token ]]; then
+            wget --header="Authorization: Bearer $auth_token" -qnc --content-disposition --show-progress -e dotbytes="$dotbytes" -P "$dir" "$url"
+        else
+            wget -qnc --content-disposition --show-progress -e dotbytes="$dotbytes" -P "$dir" "$url"
+        fi
     fi
 }
 
