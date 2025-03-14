@@ -19,9 +19,8 @@ NODES=(
     "https://github.com/Fannovel16/comfyui_controlnet_aux"
     "https://github.com/pythongosssss/ComfyUI-Custom-Scripts"
     "https://github.com/chflame163/ComfyUI_LayerStyle"
-    "https://github.com/yolain/ComfyUI-Easy-Use",
+    "https://github.com/yolain/ComfyUI-Easy-Use"
     "https://github.com/ai-shizuka/ComfyUI-tbox"
-    
 )
 
 WORKFLOWS=(
