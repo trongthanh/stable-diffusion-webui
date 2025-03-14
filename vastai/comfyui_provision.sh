@@ -44,6 +44,7 @@ ESRGAN_MODELS=(
 )
 
 CONTROLNET_MODELS=(
+    "https://huggingface.co/brad-twinkl/controlnet-union-sdxl-1.0-promax/resolve/main/diffusion_pytorch_model.safetensors?download=true"
 )
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
