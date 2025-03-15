@@ -21,6 +21,23 @@ NODES=(
     "https://github.com/chflame163/ComfyUI_LayerStyle"
     "https://github.com/yolain/ComfyUI-Easy-Use"
     "https://github.com/ai-shizuka/ComfyUI-tbox"
+    # 8k upscale
+    "https://github.com/cubiq/ComfyUI_IPAdapter_plus"
+    "https://github.com/rgthree/rgthree-comfy"
+    "https://github.com/storyicon/comfyui_segment_anything"
+    "https://github.com/chflame163/ComfyUI_CatVTON_Wrapper"
+    # Swap clothe
+    "https://github.com/rgthree/rgthree-comfy"
+    "https://github.com/TTPlanetPig/Comfyui_TTP_Toolset"
+    "https://github.com/ssitu/ComfyUI_UltimateSDUpscale"
+    "https://github.com/shiimizu/ComfyUI-TiledDiffusion"
+    "https://github.com/kijai/ComfyUI-Florence2"
+    "https://github.com/chrisgoringe/cg-use-everywhere"
+    "https://github.com/TinyTerra/ComfyUI_tinyterraNodes"
+    "https://github.com/gseth/ControlAltAI-Nodes"
+    "https://github.com/TTPlanetPig/Comfyui_TTP_CN_Preprocessor"
+    "https://github.com/un-seen/comfyui-tensorops"
+    
 )
 
 WORKFLOWS=(
